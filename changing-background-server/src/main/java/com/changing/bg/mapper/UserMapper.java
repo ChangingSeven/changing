@@ -1,13 +1,13 @@
-package com.changing.bg.reposity;
+package com.changing.bg.mapper;
 
 import com.changing.bg.model.entity.UserDO;
 
 /**
  * @author chenjun
  * @version V1.0
- * @since 2020-03-17 13:37
+ * @since 2020-03-17 22:38
  */
-public interface UserReposity {
+public interface UserMapper {
 
     /**
      * 获取用户信息
