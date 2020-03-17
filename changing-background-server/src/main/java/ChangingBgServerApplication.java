@@ -1,4 +1,6 @@
+import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
@@ -10,7 +12,9 @@ import org.springframework.context.annotation.ComponentScan;
  * @since 2020-03-17 13:18
  */
 @SpringBootApplication
+@EnableAutoConfiguration
 @ComponentScan("com.changing.bg")
+@MapperScan("com.changing.bg.mapper")
 public class ChangingBgServerApplication extends SpringBootServletInitializer {
 
     public static void main(String[] args) {
