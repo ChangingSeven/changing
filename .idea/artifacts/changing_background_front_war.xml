@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="war" name="changing-background-front:war">
+    <output-path>$PROJECT_DIR$/changing-background-front/target</output-path>
+    <root id="archive" name="changing-customer-front-1.0.0.war">
+      <element id="artifact" artifact-name="changing-background-front:war exploded" />
+    </root>
+  </artifact>
+</component>
