@@ -1,7 +1,8 @@
 package com.changing.bg.service;
 
+import com.changing.bg.framwork.exceptions.BizException;
 import com.changing.bg.model.po.LoginPO;
-import com.changing.bg.model.vo.LoginVO;
+import com.changing.bg.model.vo.login.LoginVO;
 
 /**
  * @author chenjun
@@ -16,6 +17,6 @@ public interface LoginService {
      * @param loginPO 入参
      * @return 用户信息
      */
-    LoginVO login(LoginPO loginPO) throws Exception;
+    LoginVO login(LoginPO loginPO) throws BizException;
 
 }
