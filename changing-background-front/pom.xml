@@ -11,7 +11,7 @@
 
     <groupId>com.changing.technology</groupId>
     <artifactId>changing-background-front</artifactId>
-    <packaging>war</packaging>
+    <packaging>pom</packaging>
     <version>1.0.0</version>
 
 
