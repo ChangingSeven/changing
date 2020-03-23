@@ -15,6 +15,7 @@ import javax.validation.Validator;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
@@ -47,7 +48,7 @@ public class LoginController {
      * @return 用户信息
      * @throws Exception
      */
-    @GetMapping("/login")
+    @PostMapping("/login")
     public ResponseDTO<LoginVO> login(@Valid LoginPO loginPO) throws Exception {
 
         return ResponseDTO.success(loginService.login(loginPO));
