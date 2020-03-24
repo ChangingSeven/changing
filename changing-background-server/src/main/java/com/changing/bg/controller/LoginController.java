@@ -4,19 +4,17 @@ import com.changing.bg.framwork.response.ResponseDTO;
 import com.changing.bg.model.po.LoginPO;
 import com.changing.bg.model.vo.login.LoginVO;
 import com.changing.bg.service.LoginService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
 
+import javax.validation.Valid;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
-
-import javax.validation.Valid;
-import javax.validation.Validator;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RestController;
 
 /**
  * @author chenjun
@@ -28,8 +26,6 @@ public class LoginController {
 
     @Autowired
     private LoginService loginService;
-    @Autowired
-    private Validator validator;
 
     @GetMapping("/test")
     public Map<String, String> test() {
@@ -49,7 +45,7 @@ public class LoginController {
      * @throws Exception
      */
     @PostMapping("/login")
-    public ResponseDTO<LoginVO> login(@Valid LoginPO loginPO) throws Exception {
+    public ResponseDTO<LoginVO> login(@RequestBody @Valid LoginPO loginPO) throws Exception {
 
         return ResponseDTO.success(loginService.login(loginPO));
     }
