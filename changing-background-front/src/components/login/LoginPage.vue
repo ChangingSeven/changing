@@ -56,20 +56,18 @@
             submitForm(formName) {
                 this.$refs[formName].validate((valid) => {
                     if (valid) {
-                        // var params = qs.stringify({
-                        //     userName: this.userName,
-                        //     password: this.passwd
-                        // });
-                        axios.post('http://127.0.0.1:9090/login', {
-                            userName: this.userName,
-                            password: this.passwd
-                        }).then(function (response) {
-                            console.log(response);
-                            alert('request success');
-                        }).catch(function (error) {
+                        var postParam = {};
+                        postParam.userName = this.form.userName
+                        postParam.password = this.form.passwd
+                        axios.post('http://127.0.0.1:9090/login', postParam)
+                            .then(function (response) {
+                                console.log(response);
+                                alert('request success');
+                            }).catch(function (error) {
                             console.log(error);
                             alert('request error');
                         });
+
                     } else {
                         console.log('error submit!!');
                         return false;
