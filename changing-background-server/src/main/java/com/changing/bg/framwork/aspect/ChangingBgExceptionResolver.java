@@ -23,7 +23,7 @@ import lombok.extern.slf4j.Slf4j;
  */
 @RestControllerAdvice
 @Slf4j
-public class ExceptionResolverAspect {
+public class ChangingBgExceptionResolver {
 
     @ExceptionHandler(BizException.class)
     public ResponseDTO bizException(BizException e) {
