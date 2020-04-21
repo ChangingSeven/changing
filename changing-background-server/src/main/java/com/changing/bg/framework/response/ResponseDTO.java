@@ -1,4 +1,4 @@
-package com.changing.bg.framwork.response;
+package com.changing.bg.framework.response;
 
 import lombok.Data;
 
@@ -62,8 +62,11 @@ public class ResponseDTO<T> {
     }
 
     public static <T> ResponseDTO<T> fail(String message) {
-
         return new ResponseDTO<>(DEFAULT_FAIL_CODE, message);
+    }
+
+    public static <T> ResponseDTO<T> fail(ResponseCode responseCode) {
+        return new ResponseDTO<>(responseCode.getCode(), responseCode.getMsg());
     }
 
     public static <T> ResponseDTO<T> fail(String statusCode, String message) {

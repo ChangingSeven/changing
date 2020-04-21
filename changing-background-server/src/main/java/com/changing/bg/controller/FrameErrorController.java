@@ -1,6 +1,6 @@
 package com.changing.bg.controller;
 
-import com.changing.bg.framwork.response.ResponseDTO;
+import com.changing.bg.framework.response.ResponseDTO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.web.servlet.error.ErrorController;
 import org.springframework.web.bind.annotation.RequestMapping;

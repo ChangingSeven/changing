@@ -1,18 +1,16 @@
-package com.changing.bg.framwork.aspect;
+package com.changing.bg.framework.aspect;
 
-import com.changing.bg.framwork.exceptions.BizException;
-import com.changing.bg.framwork.response.ResponseDTO;
-import com.changing.bg.framwork.response.ValidationDTO;
-
-import java.util.ArrayList;
-import java.util.List;
-
+import com.changing.bg.framework.exceptions.BizException;
+import com.changing.bg.framework.response.ResponseDTO;
+import com.changing.bg.framework.response.ValidationDTO;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.validation.BindException;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
-import lombok.extern.slf4j.Slf4j;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 异常处理
@@ -27,14 +25,14 @@ public class ChangingBgExceptionResolver {
 
     @ExceptionHandler(BizException.class)
     public ResponseDTO bizException(BizException e) {
-        log.error("业务异常：" + e.getMessage(), e);
+        log.error("business exception：" + e.getMessage(), e);
 
         return ResponseDTO.fail(e.getMessage());
     }
 
     @ExceptionHandler(BindException.class)
     public ResponseDTO bindException(BindException e) {
-        log.error("参数异常：" + e.getMessage());
+        log.error("param bind error：" + e.getMessage());
 
         List<ValidationDTO> validationList = new ArrayList<>();
         List<FieldError> fieldErrors = e.getFieldErrors();
@@ -46,14 +44,14 @@ public class ChangingBgExceptionResolver {
             validationList.add(validationDTO);
         }
 
-        ResponseDTO responseDTO = ResponseDTO.fail("参数校验不通过");
+        ResponseDTO responseDTO = ResponseDTO.fail("param check is not pass");
         responseDTO.setValidationList(validationList);
         return responseDTO;
     }
 
     @ExceptionHandler(Exception.class)
     public ResponseDTO exception(Exception e) {
-        log.error("待捕获异常：" + e.getMessage(), e);
+        log.error("unknown exception type：" + e.getMessage(), e);
 
         return ResponseDTO.fail(e.getMessage());
     }

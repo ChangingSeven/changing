@@ -1,6 +1,6 @@
 package com.changing.bg.controller;
 
-import com.changing.bg.framwork.response.ResponseDTO;
+import com.changing.bg.framework.response.ResponseDTO;
 import com.changing.bg.model.po.LoginPO;
 import com.changing.bg.model.vo.login.LoginVO;
 import com.changing.bg.service.LoginService;

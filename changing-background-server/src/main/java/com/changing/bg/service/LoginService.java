@@ -1,6 +1,6 @@
 package com.changing.bg.service;
 
-import com.changing.bg.framwork.exceptions.BizException;
+import com.changing.bg.framework.exceptions.BizException;
 import com.changing.bg.model.po.LoginPO;
 import com.changing.bg.model.vo.login.LoginVO;
 

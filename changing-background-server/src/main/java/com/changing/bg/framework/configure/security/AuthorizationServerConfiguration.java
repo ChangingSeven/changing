@@ -1,16 +1,15 @@
-package com.changing.bg.framwork.configure;
+package com.changing.bg.framework.configure.security;
 
-import com.changing.bg.framwork.configure.security.JdbcUserDetails;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.oauth2.config.annotation.configurers.ClientDetailsServiceConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.AuthorizationServerConfigurerAdapter;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableAuthorizationServer;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerEndpointsConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerSecurityConfigurer;
-import org.springframework.security.oauth2.provider.approval.ApprovalStore;
-import org.springframework.security.oauth2.provider.approval.JdbcApprovalStore;
 import org.springframework.security.oauth2.provider.client.JdbcClientDetailsService;
 import org.springframework.security.oauth2.provider.code.AuthorizationCodeServices;
 import org.springframework.security.oauth2.provider.code.JdbcAuthorizationCodeServices;
@@ -24,9 +23,11 @@ import javax.sql.DataSource;
 public class AuthorizationServerConfiguration extends AuthorizationServerConfigurerAdapter {
 
     @Autowired
+    private AuthenticationManager authenticationManager;
+    @Autowired
     private DataSource dataSource;
     @Autowired
-    private JdbcUserDetails jdbcUserDetails;
+    private UserDetailsService userDetailsService;
 
     @Bean
     public JdbcClientDetailsService clientDetailsService() {
@@ -36,11 +37,6 @@ public class AuthorizationServerConfiguration extends AuthorizationServerConfigu
     @Bean
     public TokenStore tokenStore() {
         return new JdbcTokenStore(dataSource);
-    }
-
-    @Bean
-    public ApprovalStore approvalStore() {
-        return new JdbcApprovalStore(dataSource);
     }
 
     @Bean
@@ -54,16 +50,14 @@ public class AuthorizationServerConfiguration extends AuthorizationServerConfigu
     }
 
     @Override
-    public void configure(AuthorizationServerSecurityConfigurer oauthServer) {
-        oauthServer.allowFormAuthenticationForClients();
-        oauthServer.checkTokenAccess("permitAll()");
+    public void configure(AuthorizationServerEndpointsConfigurer endpoints) {
+        endpoints.authenticationManager(authenticationManager)
+                .authorizationCodeServices(authorizationCodeServices())
+                .tokenStore(tokenStore()).userDetailsService(userDetailsService);
     }
 
     @Override
-    public void configure(AuthorizationServerEndpointsConfigurer endpoints) {
-        endpoints
-                .approvalStore(approvalStore())
-                .authorizationCodeServices(authorizationCodeServices())
-                .tokenStore(tokenStore()).userDetailsService(jdbcUserDetails);
+    public void configure(AuthorizationServerSecurityConfigurer oauthServer) {
+        oauthServer.tokenKeyAccess("permitAll()").checkTokenAccess("isAuthenticated()");
     }
 }

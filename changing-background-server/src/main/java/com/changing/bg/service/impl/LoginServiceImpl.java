@@ -1,13 +1,13 @@
 package com.changing.bg.service.impl;
 
-import com.changing.bg.framwork.exceptions.BizException;
+import com.changing.bg.framework.exceptions.BizException;
 import com.changing.bg.model.entity.UserDO;
 import com.changing.bg.model.po.LoginPO;
 import com.changing.bg.model.vo.login.LoginVO;
 import com.changing.bg.reposity.UserReposity;
 import com.changing.bg.service.LoginService;
-
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 /**
@@ -30,14 +30,13 @@ public class LoginServiceImpl implements LoginService {
             throw new BizException("account not exist");
         }
 
-        userParam.setPassword(loginPO.getPassword());
-        UserDO correctUserInfo = userReposity.getUser(userParam);
-        if (null == correctUserInfo) {
+        BCryptPasswordEncoder pwdEncoder = new BCryptPasswordEncoder();
+        if (!pwdEncoder.matches(loginPO.getPassword(), userInfo.getPassword())) {
             throw new BizException("password not correct");
         }
 
         LoginVO loginVO = new LoginVO();
-        loginVO.setNickName(correctUserInfo.getNickName());
+        loginVO.setNickName(userInfo.getNickName());
         return loginVO;
     }
 }

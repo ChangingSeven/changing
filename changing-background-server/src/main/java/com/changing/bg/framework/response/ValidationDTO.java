@@ -1,4 +1,4 @@
-package com.changing.bg.framwork.response;
+package com.changing.bg.framework.response;
 
 import lombok.Data;
 

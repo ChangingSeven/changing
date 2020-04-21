@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.changing.bg.mapper.UserPermissionMapper">
+
+    <sql id="all_columns">
+        a.id, a.user_id, a.role_id, a.permission_id, a.create_time, a.modify_time, a.record_status
+    </sql>
+
+    <select id="listUserPermissions" resultType="com.changing.bg.model.entity.UserPermissionDO">
+        SELECT
+        <include refid="all_columns"></include>
+        FROM changing_bg_user_permission a
+        <where>
+            a.record_status = 0
+            <if test="userId != null">
+                AND a.user_id = #{userId}
+            </if>
+            <if test="roleId != null">
+                AND a.role_id = #{roleId}
+            </if>
+            <if test="permissionId != null">
+                AND a.permission_id = #{permissionId}
+            </if>
+        </where>
+        ORDER BY a.create_time DESC
+    </select>
+
+</mapper>
