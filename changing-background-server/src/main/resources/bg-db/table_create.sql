@@ -17,6 +17,21 @@ CREATE TABLE `changing_bg_user` (
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
+-- Table structure for `changing_bg_user_permission`
+-- ----------------------------
+DROP TABLE IF EXISTS `changing_bg_user_permission`;
+CREATE TABLE `changing_bg_user_permission` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '主键id',
+  `user_id` bigint(20) NOT NULL COMMENT '用户id',
+  `role_id` bigint(20) NOT NULL,
+  `permission_id` bigint(20) NOT NULL COMMENT '权限id',
+  `create_time` datetime NOT NULL COMMENT '创建时间',
+  `modify_time` datetime NOT NULL COMMENT '修改时间',
+  `record_status` tinyint(2) NOT NULL COMMENT '数据记录状态',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+
+-- ----------------------------
 -- Table structure for `authority` 角色表
 -- ----------------------------
 DROP TABLE IF EXISTS `authority`;
