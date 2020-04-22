@@ -13,5 +13,9 @@ public class LoginVO {
      * 昵称
      */
     private String nickName;
+    /**
+     * 请求头需要带的token
+     */
+    private String accessToken;
 
 }
