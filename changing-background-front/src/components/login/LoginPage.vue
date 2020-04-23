@@ -61,10 +61,8 @@
                         postParam.password = this.form.passwd
                         axios.post('http://127.0.0.1:9090/login', postParam)
                             .then(function (response) {
-                                console.log(response);
                                 alert('request success');
                             }).catch(function (error) {
-                            console.log(error);
                             alert('request error');
                         });
 
