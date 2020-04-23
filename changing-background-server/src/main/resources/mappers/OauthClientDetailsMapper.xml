@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.changing.bg.mapper.OauthClientDetailsMapper">
+
+    <sql id="all_columns">
+        a.client_id, a.resource_ids, a.client_secret, a.scope,a.authorized_grant_types, a.web_server_redirect_uri,
+        a.authorities, a.access_token_validity, a.refresh_token_validity, a.additional_information, a.autoapprove
+    </sql>
+
+    <select id="findOne" parameterType="com.changing.bg.model.entity.OauthClientDetailsDO"
+            resultType="com.changing.bg.model.entity.OauthClientDetailsDO">
+        SELECT
+        <include refid="all_columns"></include>
+        FROM oauth_client_details a
+        <where>
+            <if test="clientId != null">
+                AND a.client_id = #{clientId}
+            </if>
+            <if test="resourceIds != null">
+                AND a.resource_ids = #{resourceIds}
+            </if>
+            <if test="clientSecret != null">
+                AND a.client_secret = #{clientSecret}
+            </if>
+        </where>
+        LIMIT 1
+    </select>
+
+</mapper>

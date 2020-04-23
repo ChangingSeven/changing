@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.changing.bg.mapper.OauthCodeMapper">
+
+    <sql id="all_columns">
+        a.code, a.authentication
+    </sql>
+
+    <insert id="insert">
+        INSERT INTO oauth_code(code, authentication)
+        values (#{code}, #{authentication})
+    </insert>
+
+    <delete id="delete">
+        DELETE FROM oauth_code WHERE code = #{code}
+    </delete>
+
+    <select id="findOne" parameterType="com.changing.bg.model.entity.OauthCodeDO"
+            resultType="com.changing.bg.model.entity.OauthCodeDO">
+        SELECT
+        <include refid="all_columns"></include>
+        FROM oauth_code a
+        <where>
+            <if test="code != null">
+                AND a.code = #{code}
+            </if>
+            <if test="authentication != null">
+                AND a.authentication = #{authentication}
+            </if>
+        </where>
+        LIMIT 1
+    </select>
+
+</mapper>
