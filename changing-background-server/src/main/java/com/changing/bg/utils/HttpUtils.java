@@ -56,7 +56,7 @@ public class HttpUtils {
      */
     public static String bodyPost(String url, Object params, Map<String, String> headers) throws HttpFailException {
 
-        return bodyPost(url, params, headers, null);
+        return bodyPost(url, params, headers, Charsets.UTF_8.name());
     }
 
     /**
@@ -68,7 +68,7 @@ public class HttpUtils {
      * @throws HttpFailException request fail exception
      */
     public static String bodyPost(String url, Object params, Map<String, String> headers, String respCharset) throws HttpFailException {
-        CloseableHttpClient client = HttpClients.createDefault();
+        respCharset = StringUtils.isNotBlank(respCharset) ? respCharset : Charsets.UTF_8.name();
         HttpPost post = new HttpPost(url);
 
         if (Objects.nonNull(headers) && !headers.isEmpty()) {
@@ -84,20 +84,13 @@ public class HttpUtils {
         log.info(String.format("http post request url: %s, params: %s ,headers: %s", url, stringEntity, JSON.toJSONString(headers)));
 
         CloseableHttpResponse response = null;
-        try {
+        try (CloseableHttpClient client = HttpClients.createDefault()) {
             response = client.execute(post);
             if (response.getStatusLine().getStatusCode() == HttpStatus.SC_OK) {
-                if (StringUtils.isNotBlank(respCharset)) {
-                    String result = EntityUtils.toString(response.getEntity(), respCharset);
-                    log.info(String.format("post request %s response is: %s", url, result));
+                String result = EntityUtils.toString(response.getEntity(), respCharset);
+                log.info(String.format("post request %s response is: %s", url, result));
 
-                    return result;
-                } else {
-                    String result = EntityUtils.toString(response.getEntity(), Charsets.UTF_8);
-                    log.info(String.format("post request %s response is: %s", url, result));
-
-                    return result;
-                }
+                return result;
             } else {
                 throw new HttpFailException("http post request is fail");
             }
@@ -109,7 +102,6 @@ public class HttpUtils {
                 if (Objects.nonNull(response)) {
                     response.close();
                 }
-                client.close();
             } catch (IOException e) {
                 log.error("close client occur an io exception", e);
             }
@@ -127,10 +119,7 @@ public class HttpUtils {
      * @throws HttpFailException request fail exception
      */
     public static String formPost(String url, Map<String, String> params, Map<String, String> headers, String encode) throws HttpFailException {
-        if (encode == null) {
-            encode = "UTF-8";
-        }
-        CloseableHttpClient closeableHttpClient = HttpClients.createDefault();
+        encode = StringUtils.isNotBlank(encode) ? encode : Charsets.UTF_8.name();
         HttpPost httPost = new HttpPost(url);
 
         if (headers != null && headers.size() > 0) {
@@ -148,10 +137,10 @@ public class HttpUtils {
         }
 
         CloseableHttpResponse httpResponse = null;
-        try {
+        try (CloseableHttpClient httpClient = HttpClients.createDefault()) {
             httPost.setEntity(new UrlEncodedFormEntity(paramList, encode));
 
-            httpResponse = closeableHttpClient.execute(httPost);
+            httpResponse = httpClient.execute(httPost);
             HttpEntity entity = httpResponse.getEntity();
             return EntityUtils.toString(entity, encode);
         } catch (UnsupportedEncodingException e) {
@@ -168,7 +157,6 @@ public class HttpUtils {
                 if (Objects.nonNull(httpResponse)) {
                     httpResponse.close();
                 }
-                closeableHttpClient.close();
             } catch (IOException e) {
                 log.error("close client occur an io exception", e);
             }
