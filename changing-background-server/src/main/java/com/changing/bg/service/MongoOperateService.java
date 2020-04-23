@@ -1,23 +1,29 @@
 package com.changing.bg.service;
 
-import org.springframework.data.mongodb.core.query.Query;
-import org.springframework.data.mongodb.core.query.Update;
-
 import java.util.Collection;
 import java.util.List;
 
+import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.data.mongodb.core.query.Update;
+
+/**
+ * @author chenjun
+ */
 public interface MongoOperateService {
 
-    /*
+    /**
      * create collection and return execute result
      * -1：collection exists / 0：fail / 1：success
+     *
+     * @param collectionName collection name
+     * @return operate result
      */
     Integer createCollection(String collectionName);
 
     /**
      * drop collection
      *
-     * @param collectionName collectionname
+     * @param collectionName collection name
      * @return -1：collection not exists / 0：fail / 1：success
      */
     Integer dropCollection(String collectionName);
@@ -62,18 +68,44 @@ public interface MongoOperateService {
      */
     void batchInsert(Collection<?> batchToSave, String collectionName);
 
-    /*
-     * @desc 根据条件和指定集合删除数据
+    /**
+     * delete data
+     *
+     * @param query          filter
+     * @param obj            operate object type
+     * @param collectionName collection name
      */
     void delete(Query query, Object obj, String collectionName);
 
-    /*
-     * @desc    根据条件更新数据
+    /**
+     * update data
+     *
+     * @param query          data filter
+     * @param update         update fields
+     * @param obj            operate object type
+     * @param collectionName collection name
      */
     void update(Query query, Update update, Object obj, String collectionName);
 
+    /**
+     * find one record
+     *
+     * @param query     filter
+     * @param classType class type
+     * @param <T>       class type's param
+     * @return data record
+     */
     <T> T findOne(Query query, Class<T> classType);
 
+    /**
+     * find one record
+     *
+     * @param query          filter
+     * @param classType      class type
+     * @param collectionName collection name
+     * @param <T>            class type's param
+     * @return data record
+     */
     <T> T findOne(Query query, Class<T> classType, String collectionName);
 
     /**
