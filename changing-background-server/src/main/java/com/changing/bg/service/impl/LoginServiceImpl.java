@@ -3,13 +3,14 @@ package com.changing.bg.service.impl;
 import com.alibaba.fastjson.JSON;
 import com.changing.bg.framework.exceptions.BizException;
 import com.changing.bg.framework.exceptions.HttpFailException;
-import com.changing.bg.model.entity.UserDO;
+import com.changing.bg.model.entity.user.UserDO;
 import com.changing.bg.model.po.LoginPO;
 import com.changing.bg.model.vo.login.LoginVO;
-import com.changing.bg.reposity.UserReposity;
+import com.changing.bg.reposity.user.UserReposity;
 import com.changing.bg.service.LoginService;
 import com.changing.bg.utils.HttpUtils;
 import com.changing.bg.utils.PropertyUtils;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -22,6 +23,7 @@ import java.util.Map;
  * @version V1.0
  * @since 2020-03-17 13:20
  */
+@Slf4j
 @Service
 public class LoginServiceImpl implements LoginService {
 
@@ -36,12 +38,12 @@ public class LoginServiceImpl implements LoginService {
         userParam.setUserName(loginPO.getUserName());
         UserDO userInfo = userReposity.getUser(userParam);
         if (null == userInfo) {
-            throw new BizException("account not exist");
+            throw new BizException("账号不存在！");
         }
 
         BCryptPasswordEncoder pwdEncoder = new BCryptPasswordEncoder();
         if (!pwdEncoder.matches(loginPO.getPassword(), userInfo.getPassword())) {
-            throw new BizException("password not correct");
+            throw new BizException("密码不正确！");
         }
 
         LoginVO loginVO = new LoginVO();
@@ -65,6 +67,7 @@ public class LoginServiceImpl implements LoginService {
             loginVO.setAccessToken(resultMap.get("access_token"));
         } catch (HttpFailException e) {
             e.printStackTrace();
+            log.error("获取token异常", e);
         }
 
         loginVO.setNickName(userInfo.getNickName());

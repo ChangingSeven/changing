@@ -1,15 +1,15 @@
-package com.changing.bg.mapper;
+package com.changing.bg.reposity.user;
 
-import com.changing.bg.model.entity.UserPermissionDO;
+import com.changing.bg.model.entity.user.UserPermissionDO;
 
 import java.util.List;
 
 /**
  * @author chenjun
  * @version V1.0
- * @since 2020-03-17 22:38
+ * @since 2020-03-17 13:37
  */
-public interface UserPermissionMapper {
+public interface UserPermissionReposity {
 
     /**
      * 获取用户所有权限

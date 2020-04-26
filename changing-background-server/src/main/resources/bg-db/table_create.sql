@@ -23,12 +23,12 @@ DROP TABLE IF EXISTS `changing_bg_user_permission`;
 CREATE TABLE `changing_bg_user_permission` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '主键id',
   `user_id` bigint(20) NOT NULL COMMENT '用户id',
-  `role_id` bigint(20) NOT NULL,
+  `role_id` bigint(20) NOT NULL COMMENT '角色id',
   `permission_id` bigint(20) NOT NULL COMMENT '权限id',
-  `create_time` datetime NOT NULL COMMENT '创建时间',
-  `modify_time` datetime NOT NULL COMMENT '修改时间',
   `record_status` tinyint(2) NOT NULL COMMENT '数据记录状态',
-  PRIMARY KEY (`id`)
+  `create_time` datetime NOT NULL COMMENT '创建时间',
+  `modify_time` datetime NOT NULL COMMENT '修改时间'
+    PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 -- ----------------------------
@@ -59,13 +59,18 @@ CREATE TABLE `credentials` (
 -- ----------------------------
 DROP TABLE IF EXISTS `oauth_access_token`;
 CREATE TABLE `oauth_access_token` (
-  `token_id` varchar(255) COLLATE utf8_bin DEFAULT NULL,
-  `token` longblob,
+  `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '主键id',
+  `token_id` varchar(255) COLLATE utf8_bin DEFAULT NULL COMMENT 'token id',
+  `token` longblob COMMENT '会话token',
   `authentication_id` varchar(255) COLLATE utf8_bin DEFAULT NULL,
-  `user_name` varchar(255) COLLATE utf8_bin DEFAULT NULL,
-  `client_id` varchar(255) COLLATE utf8_bin DEFAULT NULL,
-  `authentication` longblob,
-  `refresh_token` varchar(255) COLLATE utf8_bin DEFAULT NULL
+  `user_name` varchar(255) COLLATE utf8_bin DEFAULT NULL COMMENT '用户名',
+  `client_id` varchar(255) COLLATE utf8_bin DEFAULT NULL COMMENT '客户端id',
+  `authentication` longblob COMMENT '会话',
+  `refresh_token` varchar(255) COLLATE utf8_bin DEFAULT NULL COMMENT '再刷新token',
+  `record_status` tinyint(2) NOT NULL COMMENT '数据记录',
+  `create_time` datetime NOT NULL COMMENT '创建时间',
+  `modify_time` datetime DEFAULT NULL COMMENT '修改时间',
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 -- ----------------------------
@@ -73,17 +78,22 @@ CREATE TABLE `oauth_access_token` (
 -- ----------------------------
 DROP TABLE IF EXISTS `oauth_client_details`;
 CREATE TABLE `oauth_client_details` (
-  `client_id` varchar(255) COLLATE utf8_bin NOT NULL,
-  `resource_ids` varchar(255) COLLATE utf8_bin DEFAULT NULL,
-  `client_secret` varchar(255) COLLATE utf8_bin DEFAULT NULL,
-  `scope` varchar(255) COLLATE utf8_bin DEFAULT NULL,
-  `authorized_grant_types` varchar(255) COLLATE utf8_bin DEFAULT NULL,
-  `web_server_redirect_uri` varchar(255) COLLATE utf8_bin DEFAULT NULL,
-  `authorities` varchar(255) COLLATE utf8_bin DEFAULT NULL,
-  `access_token_validity` int(11) DEFAULT NULL,
-  `refresh_token_validity` int(11) DEFAULT NULL,
-  `additional_information` varchar(255) COLLATE utf8_bin DEFAULT NULL,
-  `autoapprove` varchar(255) COLLATE utf8_bin DEFAULT NULL
+  `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '主键id',
+  `client_id` varchar(255) COLLATE utf8_bin NOT NULL COMMENT '客户端id',
+  `resource_ids` varchar(255) COLLATE utf8_bin DEFAULT NULL COMMENT '资源id',
+  `client_secret` varchar(255) COLLATE utf8_bin DEFAULT NULL COMMENT '客户端秘钥',
+  `scope` varchar(255) COLLATE utf8_bin DEFAULT NULL COMMENT '权限点',
+  `authorized_grant_types` varchar(255) COLLATE utf8_bin DEFAULT NULL COMMENT '授权方式(多个使用英文逗号分隔)',
+  `web_server_redirect_uri` varchar(255) COLLATE utf8_bin DEFAULT NULL COMMENT '重定向地址',
+  `authorities` varchar(255) COLLATE utf8_bin DEFAULT NULL COMMENT '角色权限',
+  `access_token_validity` int(11) DEFAULT NULL COMMENT '会话token',
+  `refresh_token_validity` int(11) DEFAULT NULL COMMENT '再刷新token',
+  `additional_information` varchar(255) COLLATE utf8_bin DEFAULT NULL COMMENT '扩展信息',
+  `autoapprove` varchar(255) COLLATE utf8_bin DEFAULT NULL,
+  `record_status` tinyint(2) NOT NULL COMMENT '数据状态(0:正常,1:删除)',
+  `create_time` datetime NOT NULL COMMENT '创建时间',
+  `modify_time` datetime DEFAULT NULL COMMENT '更新时间',
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 -- ----------------------------
@@ -103,8 +113,13 @@ CREATE TABLE `oauth_client_token` (
 -- ----------------------------
 DROP TABLE IF EXISTS `oauth_code`;
 CREATE TABLE `oauth_code` (
-  `code` varchar(255) COLLATE utf8_bin DEFAULT NULL,
-  `authentication` varbinary(255) DEFAULT NULL
+  `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '主键id',
+  `code` varchar(255) COLLATE utf8_bin DEFAULT NULL COMMENT '授权码',
+  `authentication` varbinary(255) DEFAULT NULL COMMENT '权限',
+  `record_status` tinyint(2) NOT NULL COMMENT '数据状态',
+  `create_time` datetime NOT NULL COMMENT '创建时间',
+  `modify_time` datetime DEFAULT NULL COMMENT '修改时间',
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 -- ----------------------------
@@ -112,7 +127,12 @@ CREATE TABLE `oauth_code` (
 -- ----------------------------
 DROP TABLE IF EXISTS `oauth_refresh_token`;
 CREATE TABLE `oauth_refresh_token` (
-  `token_id` varchar(255) COLLATE utf8_bin DEFAULT NULL,
-  `token` longblob,
-  `authentication` longblob
+  `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '主键id',
+  `token_id` varchar(255) COLLATE utf8_bin DEFAULT NULL COMMENT 'token id',
+  `token` longblob COMMENT '会话token',
+  `authentication` longblob COMMENT '会话',
+  `record_status` tinyint(2) NOT NULL COMMENT '数据状态',
+  `create_time` datetime NOT NULL COMMENT '创建时间',
+  `modify_time` datetime DEFAULT NULL COMMENT '修改时间',
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;

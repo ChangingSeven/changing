@@ -1,4 +1,4 @@
-package com.changing.bg.model.entity;
+package com.changing.bg.model.entity.user;
 
 import lombok.Data;
 

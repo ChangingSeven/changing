@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.changing.bg.mapper.oauth.OauthAccessTokenMapper">
+
+    <sql id="all_columns">
+        id, token_id, token, authentication_id, user_name,client_id, authentication, refresh_token,
+        record_status, create_time, modify_time
+    </sql>
+
+    <sql id="table_name">
+         oauth_access_token 
+    </sql>
+
+    <select id="findOne" parameterType="com.changing.bg.model.entity.oauth.OauthAccessTokenDO"
+            resultType="com.changing.bg.model.entity.oauth.OauthAccessTokenDO">
+        SELECT
+        <include refid="all_columns"></include>
+        FROM
+        <include refid="table_name"></include>
+        <where>
+            record_status = 0
+            <if test="tokenId != null">
+                AND token_id = #{tokenId}
+            </if>
+            <if test="clientId != null">
+                AND client_id = #{clientId}
+            </if>
+            <if test="userName != null">
+                AND user_name = #{userName}
+            </if>
+        </where>
+        LIMIT 1
+    </select>
+
+    <select id="list" parameterType="com.changing.bg.model.entity.oauth.OauthAccessTokenDO"
+            resultType="com.changing.bg.model.entity.oauth.OauthAccessTokenDO">
+        SELECT
+        <include refid="all_columns"></include>
+        FROM
+        <include refid="table_name"></include>
+        <where>
+            record_status = 0
+            <if test="tokenId != null">
+                AND token_id = #{tokenId}
+            </if>
+            <if test="clientId != null">
+                AND client_id = #{clientId}
+            </if>
+            <if test="userName != null">
+                AND user_name = #{userName}
+            </if>
+        </where>
+    </select>
+
+    <insert id="save" useGeneratedKeys="true" keyProperty="id"
+            parameterType="com.changing.bg.model.entity.oauth.OauthAccessTokenDO">
+        INSERT INTO
+        <include refid="table_name"></include>
+        (token_id, token, authentication_id, user_name,client_id, authentication, refresh_token, record_status,
+        create_time)
+        VALUES (#{tokenId}, #{token}, #{authenticationId}, #{userName}, #{clientId}, #{authentication}, #{refreshToken},
+        0, now())
+    </insert>
+
+    <delete id="delete">
+        UPDATE
+        <include refid="table_name"></include>
+        SET record_status = 1
+        <where>
+            record_status = 0
+            <if test="id != null">
+                AND id = #{id}
+            </if>
+            <if test="tokenId != null">
+                AND token_id = #{tokenId}
+            </if>
+        </where>
+    </delete>
+
+</mapper>

@@ -1,6 +1,6 @@
-package com.changing.bg.mapper;
+package com.changing.bg.mapper.user;
 
-import com.changing.bg.model.entity.UserDO;
+import com.changing.bg.model.entity.user.UserDO;
 
 /**
  * @author chenjun

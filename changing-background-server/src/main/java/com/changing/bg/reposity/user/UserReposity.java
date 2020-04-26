@@ -1,6 +1,6 @@
-package com.changing.bg.reposity;
+package com.changing.bg.reposity.user;
 
-import com.changing.bg.model.entity.UserDO;
+import com.changing.bg.model.entity.user.UserDO;
 
 /**
  * @author chenjun

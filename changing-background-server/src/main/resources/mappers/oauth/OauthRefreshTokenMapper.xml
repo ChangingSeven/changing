@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.changing.bg.mapper.oauth.OauthRefreshTokenMapper">
+
+    <sql id="all_columns">
+        id, token_id, token, authentication, record_status, create_time, modify_time
+    </sql>
+
+    <sql id="table_name">
+         oauth_refresh_token
+    </sql>
+
+    <select id="findOne" parameterType="com.changing.bg.model.entity.oauth.OauthRefreshTokenDO"
+            resultType="com.changing.bg.model.entity.oauth.OauthRefreshTokenDO">
+        SELECT
+        <include refid="all_columns"></include>
+        FROM
+        <include refid="table_name"></include>
+        <where>
+            record_status = 0
+            <if test="id != null">
+                AND id = #{id}
+            </if>
+            <if test="tokenId != null">
+                AND token_id = #{tokenId}
+            </if>
+        </where>
+        LIMIT 1
+    </select>
+
+    <insert id="save" useGeneratedKeys="true" keyProperty="id"
+            parameterType="com.changing.bg.model.entity.oauth.OauthRefreshTokenDO">
+        INSERT INTO
+        <include refid="table_name"></include>
+        (token_id, token, authentication, record_status, create_time)
+        VALUES (#{tokenId}, #{token}, #{authentication}, 0, now())
+    </insert>
+
+    <delete id="delete" parameterType="com.changing.bg.model.entity.oauth.OauthRefreshTokenDO">
+        UPDATE
+        <include refid="table_name"></include>
+        SET record_status = 1
+        <where>
+            record_status = 0
+            <if test="id != null">
+                AND id = #{id}
+            </if>
+            <if test="tokenId != null">
+                AND token_id = #{tokenId}
+            </if>
+        </where>
+    </delete>
+
+</mapper>

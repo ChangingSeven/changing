@@ -1,8 +1,8 @@
-package com.changing.bg.reposity.impl;
+package com.changing.bg.reposity.user.impl;
 
-import com.changing.bg.model.entity.UserDO;
-import com.changing.bg.mapper.UserMapper;
-import com.changing.bg.reposity.UserReposity;
+import com.changing.bg.model.entity.user.UserDO;
+import com.changing.bg.mapper.user.UserMapper;
+import com.changing.bg.reposity.user.UserReposity;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;

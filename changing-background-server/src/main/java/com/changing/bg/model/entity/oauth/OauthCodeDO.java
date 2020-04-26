@@ -1,28 +1,28 @@
-package com.changing.bg.model.entity;
+package com.changing.bg.model.entity.oauth;
 
 import lombok.Data;
 
+import java.io.Serializable;
 import java.util.Date;
 
 @Data
-public class UserPermissionDO {
-
+public class OauthCodeDO {
     /**
      * 主键id
      */
     private Integer id;
     /**
-     * 用户id
+     * 授权码
      */
-    private Integer userId;
+    private String code;
     /**
-     * 角色id
+     * 权限
      */
-    private Integer roleId;
+    private byte[] authentication;
     /**
-     * 权限id
+     * 数据状态(0:正常,1:删除)
      */
-    private Integer permissionId;
+    private Integer recordStatus;
     /**
      * 创建时间
      */
@@ -31,8 +31,4 @@ public class UserPermissionDO {
      * 更新时间
      */
     private Date modifyTime;
-    /**
-     * 数据记录状态
-     */
-    private Integer recordStatus;
 }

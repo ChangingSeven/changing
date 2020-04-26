@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 
-<mapper namespace="com.changing.bg.mapper.OauthCodeMapper">
+<mapper namespace="com.changing.bg.mapper.oauth.OauthCodeMapper">
 
     <sql id="all_columns">
         a.code, a.authentication
@@ -16,8 +16,8 @@
         DELETE FROM oauth_code WHERE code = #{code}
     </delete>
 
-    <select id="findOne" parameterType="com.changing.bg.model.entity.OauthCodeDO"
-            resultType="com.changing.bg.model.entity.OauthCodeDO">
+    <select id="findOne" parameterType="com.changing.bg.model.entity.oauth.OauthCodeDO"
+            resultType="com.changing.bg.model.entity.oauth.OauthCodeDO">
         SELECT
         <include refid="all_columns"></include>
         FROM oauth_code a

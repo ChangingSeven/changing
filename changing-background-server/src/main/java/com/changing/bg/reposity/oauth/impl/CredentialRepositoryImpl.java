@@ -1,8 +1,8 @@
-package com.changing.bg.reposity.impl;
+package com.changing.bg.reposity.oauth.impl;
 
-import com.changing.bg.mapper.CredentialMapper;
-import com.changing.bg.model.entity.Credentials;
-import com.changing.bg.reposity.CredentialRepository;
+import com.changing.bg.mapper.oauth.CredentialMapper;
+import com.changing.bg.model.entity.oauth.Credentials;
+import com.changing.bg.reposity.oauth.CredentialRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 

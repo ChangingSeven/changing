@@ -1,14 +1,15 @@
 package com.changing.bg.framework.configure.security;
 
 import com.alibaba.fastjson.JSON;
-import com.changing.bg.model.entity.OauthClientDetailsDO;
-import com.changing.bg.model.entity.OauthCodeDO;
-import com.changing.bg.model.entity.UserDO;
-import com.changing.bg.model.entity.UserPermissionDO;
-import com.changing.bg.reposity.OauthClientDetailsRepository;
-import com.changing.bg.reposity.OauthCodeRepository;
-import com.changing.bg.reposity.UserPermissionReposity;
-import com.changing.bg.reposity.UserReposity;
+import com.changing.bg.model.entity.oauth.OauthClientDetailsDO;
+import com.changing.bg.model.entity.oauth.OauthCodeDO;
+import com.changing.bg.model.entity.user.UserDO;
+import com.changing.bg.model.entity.user.UserPermissionDO;
+import com.changing.bg.reposity.oauth.OauthClientDetailsRepository;
+import com.changing.bg.reposity.oauth.OauthCodeRepository;
+import com.changing.bg.reposity.user.UserPermissionReposity;
+import com.changing.bg.reposity.user.UserReposity;
+import org.apache.commons.lang3.SerializationUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -24,6 +25,7 @@ import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.security.oauth2.provider.client.BaseClientDetails;
 import org.springframework.security.oauth2.provider.code.AuthorizationCodeServices;
 import org.springframework.security.oauth2.provider.code.RandomValueAuthorizationCodeServices;
+import org.springframework.security.oauth2.provider.token.TokenStore;
 
 import java.util.Arrays;
 import java.util.HashSet;
@@ -46,13 +48,18 @@ public class SecurityBeanConfiguration {
     }
 
     @Bean
+    public TokenStore tokenStore() {
+        return new SecurityTokenStore();
+    }
+
+    @Bean
     public UserDetailsService userDetailsService() {
         return username -> {
             UserDO userParam = new UserDO();
             userParam.setUserName(username);
             UserDO dbUser = userReposity.getUser(userParam);
             if (null == dbUser) {
-                throw new IllegalArgumentException("Username : " + username + " not found !");
+                throw new IllegalArgumentException("用户 " + username + " 不存在");
             }
 
             UserPermissionDO userPermissionParam = new UserPermissionDO();
@@ -75,22 +82,22 @@ public class SecurityBeanConfiguration {
         return clientId -> {
             OauthClientDetailsDO oauthClientDetailsParam = new OauthClientDetailsDO();
             oauthClientDetailsParam.setClientId(clientId);
-            OauthClientDetailsDO oa = clientDetailsRepository.findOne(oauthClientDetailsParam);
-            if (Objects.isNull(oa)) {
-                throw new ClientRegistrationException("unknown clientId");
+            OauthClientDetailsDO clientDetail = clientDetailsRepository.findOne(oauthClientDetailsParam);
+            if (Objects.isNull(clientDetail)) {
+                throw new ClientRegistrationException("不存在的客户端id");
             }
 
-            BaseClientDetails clientDetails = new BaseClientDetails();
-            clientDetails.setClientId(oa.getClientId());
-            clientDetails.setClientSecret(oa.getClientSecret());
-            String redirectUri = oa.getWebServerRedirectUri();
+            BaseClientDetails oauthBaseClientDetail = new BaseClientDetails();
+            oauthBaseClientDetail.setClientId(clientDetail.getClientId());
+            oauthBaseClientDetail.setClientSecret(clientDetail.getClientSecret());
+            String redirectUri = clientDetail.getWebServerRedirectUri();
             if (StringUtils.isNotBlank(redirectUri)) {
-                clientDetails.setRegisteredRedirectUri(new HashSet<>(Arrays.asList(oa.getWebServerRedirectUri().split(","))));
+                oauthBaseClientDetail.setRegisteredRedirectUri(new HashSet<>(Arrays.asList(clientDetail.getWebServerRedirectUri().split(","))));
             }
-            clientDetails.setAuthorizedGrantTypes(Arrays.asList(oa.getAuthorizedGrantTypes().split(",")));
-            clientDetails.setScope(Arrays.asList(oa.getScope().split(",")));
+            oauthBaseClientDetail.setAuthorizedGrantTypes(Arrays.asList(clientDetail.getAuthorizedGrantTypes().split(",")));
+            oauthBaseClientDetail.setScope(Arrays.asList(clientDetail.getScope().split(",")));
 
-            return clientDetails;
+            return oauthBaseClientDetail;
         };
     }
 
@@ -101,7 +108,7 @@ public class SecurityBeanConfiguration {
             protected void store(String code, OAuth2Authentication authentication) {
                 OauthCodeDO oauthCodeDO = new OauthCodeDO();
                 oauthCodeDO.setCode(code);
-                oauthCodeDO.setAuthentication(JSON.toJSONString(authentication));
+                oauthCodeDO.setAuthentication(SerializationUtils.serialize(authentication.getUserAuthentication()));
                 oauthCodeRepository.insert(oauthCodeDO);
             }
 
