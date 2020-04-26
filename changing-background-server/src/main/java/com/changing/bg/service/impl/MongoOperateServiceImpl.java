@@ -1,17 +1,20 @@
 package com.changing.bg.service.impl;
 
 import com.changing.bg.service.MongoOperateService;
+
+import java.util.Collection;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Service;
 
-import java.util.Collection;
-import java.util.List;
-
 /**
  * MongoDB operate methods
+ *
+ * @author chenjun
  */
 @Service
 public class MongoOperateServiceImpl implements MongoOperateService {
@@ -75,7 +78,7 @@ public class MongoOperateServiceImpl implements MongoOperateService {
 
     @Override
     public void batchInsert(Collection<?> batchToSave, String collectionName) {
-        this.insertObjectToCollection(batchToSave, collectionName);
+        mongoTemplate.insert(batchToSave, collectionName);
     }
 
     @Override
