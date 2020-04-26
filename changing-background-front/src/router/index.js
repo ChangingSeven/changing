@@ -12,6 +12,14 @@ export default new Router({
     base: '/bg-front',
     routes: [
         {
+            path: '/',
+            name: 'IndexPage',
+            component: IndexPage,
+            meta: {
+                title: '首页'
+            }
+        },
+        {
             path: '/index',
             name: 'IndexPage',
             component: IndexPage,
