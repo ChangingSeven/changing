@@ -6,28 +6,24 @@ import router from './router'
 
 import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
-Vue.use(ElementUI)
-
 import axios from 'axios'
-Vue.use(axios)
-
 import qs from 'qs'
-Vue.use(qs)
+import store from './framework/store/store'
 
-Vue.config.productionTip = false
+Vue.use(ElementUI);
+Vue.use(axios);
+Vue.use(qs);
+Vue.use(store);
 
-router.beforeEach((to, from, next) => {
-  /* 路由发生变化修改页面title */
-  if (to.meta.title) {
-    document.title = to.meta.title;
-  }
-  next();
-})
+// 自定义别名
+Vue.prototype.$axios = axios;
+
+Vue.config.productionTip = false;
 
 /* eslint-disable no-new */
 new Vue({
-  el: '#app',
-  router,
-  components: { App },
-  template: '<App/>'
-})
+    el: '#app',
+    router,
+    components: {App},
+    template: '<App/>'
+});

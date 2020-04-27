@@ -22,8 +22,6 @@
 </template>
 
 <script>
-    import axios from "axios";
-
     export default {
         name: 'LoginPage',
         data() {
@@ -59,13 +57,15 @@
                         var postParam = {};
                         postParam.userName = this.form.userName
                         postParam.password = this.form.passwd
-                        axios.post('http://127.0.0.1:9090/login', postParam)
+                        this.$axios.post('http://127.0.0.1:9090/login', postParam)
                             .then(function (response) {
+                                debugger
+                                let token = response.data.data.accessToken;
+                                this.$store.commit('setToken', token);
                                 alert('request success');
                             }).catch(function (error) {
-                            alert('request error');
-                        });
-
+                                alert('request error');
+                            });
                     } else {
                         console.log('error submit!!');
                         return false;

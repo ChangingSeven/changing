@@ -66,7 +66,6 @@ public class LoginServiceImpl implements LoginService {
             Map<String, String> resultMap = JSON.parseObject(result, Map.class);
             loginVO.setAccessToken(resultMap.get("access_token"));
         } catch (HttpFailException e) {
-            e.printStackTrace();
             log.error("获取token异常", e);
         }
 
