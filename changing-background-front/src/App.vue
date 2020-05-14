@@ -1,8 +1,6 @@
 <template>
     <div id="app">
 
-        <img v-show="!(currentPagePath === '/login')" src="./assets/logo.png" />
-        <img v-show="currentPagePath === '/login'" src="./assets/images/login-logo.png" style="width: 200px;height: 200px;"/>
         <router-view/>
     </div>
 </template>
@@ -16,7 +14,8 @@
             }
         },
         mounted() {
-            this.currentPagePath = this.$route.path
+            this.currentPagePath = this.$route.path;
+            console.log(this.currentPagePath)
         }
     }
 </script>

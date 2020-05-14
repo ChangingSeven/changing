@@ -85,16 +85,16 @@ router.beforeEach((to, from, next) => {
     }
 
     // 2、判断该路由是否需要登录权限
+    // 通过vuex state获取当前的token是否存在
+    const token = frameStore.getters.getToken;
     if (to.meta.requireAuth) {
-        // 通过vuex state获取当前的token是否存在
-        const token = frameStore.getters.getToken;
         if (token) {
             next();
         } else {
             next({
                 path: '/login',
                 // 将跳转的路由path作为参数，登录成功后跳转到该路由
-                query: {redirect: to.fullPath}
+                query: {redirectUrl: to.fullPath}
             })
         }
     } else {

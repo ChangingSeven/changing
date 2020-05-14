@@ -1,5 +1,6 @@
 <template>
     <div class="hello">
+        <img src="../../assets/images/login-logo.png" style="width: 200px;height: 200px;"/>
         <div style="margin-left: 25%;margin-right: 35%;">
             <el-form ref="loginForm" status-icon :model="form" :rules="rules" label-width="80px">
                 <el-form-item label="Account: " label-width="180px" prop="userName">
@@ -63,7 +64,14 @@
                             .then(function (response) {
                                 let token = response.data.data.accessToken;
                                 vueObj.$frameStore.commit('setToken', token);
-                                alert('request success');
+
+                                // 跳转首页
+                                let redirectUrl = vueObj.$route.query.redirectUrl;
+                                if (redirectUrl) {
+                                    vueObj.$router.push({path: redirectUrl});
+                                } else {
+                                    vueObj.$router.push({path: 'index'});
+                                }
                             }).catch(function (error) {
                                 alert('request error');
                             });
