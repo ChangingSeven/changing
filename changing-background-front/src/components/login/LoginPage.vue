@@ -52,16 +52,17 @@
         },
         methods: {
             submitForm(formName) {
-                this.$refs[formName].validate((valid) => {
+                let vueObj = this;
+                vueObj.$refs[formName].validate((valid) => {
                     if (valid) {
-                        var postParam = {};
-                        postParam.userName = this.form.userName
-                        postParam.password = this.form.passwd
-                        this.$axios.post('http://127.0.0.1:9090/login', postParam)
+                        let postParam = {
+                            'userName': this.form.userName,
+                            'password': this.form.passwd,
+                        };
+                        vueObj.$frameAxios.post('http://127.0.0.1:9090/login', postParam)
                             .then(function (response) {
-                                debugger
                                 let token = response.data.data.accessToken;
-                                this.$store.commit('setToken', token);
+                                vueObj.$frameStore.commit('setToken', token);
                                 alert('request success');
                             }).catch(function (error) {
                                 alert('request error');

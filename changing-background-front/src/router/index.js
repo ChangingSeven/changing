@@ -1,12 +1,43 @@
 import Vue from 'vue'
 import Router from 'vue-router'
+import Vuex from 'vuex'
 
 import IndexPage from '@/components/IndexPage'
 import LoginPage from '@/components/login/LoginPage'
 import NotFound from '@/components/framework/NotFound'
 
-Vue.use(Router)
+Vue.use(Router);
+Vue.use(Vuex);
 
+// vuex store start
+const frameStore = new Vuex.Store({
+    state: {
+        token: ''
+    },
+    mutations: {
+        setToken(state, value) {
+            state.token = value;
+            localStorage.token = value;
+        }
+    },
+    getters: {
+        getToken(state) {
+            var token = state.token;
+            if (token) {
+                return token;
+            } else {
+                return localStorage.token;
+            }
+        }
+    }
+});
+// 把 store 添加到 vue 扩展方法中
+Vue.prototype.$frameStore = frameStore;
+// vuex store end
+
+
+// vue router start
+// 请求页面跳转
 const router = new Router({
     mode: 'history',
     base: '/bg-front',
@@ -56,10 +87,7 @@ router.beforeEach((to, from, next) => {
     // 2、判断该路由是否需要登录权限
     if (to.meta.requireAuth) {
         // 通过vuex state获取当前的token是否存在
-        // const token = store.getters.getToken;
-        const token = localStorage.token;
-        const a = this.$store.getters.getToken;
-        debugger
+        const token = frameStore.getters.getToken;
         if (token) {
             next();
         } else {
@@ -73,5 +101,6 @@ router.beforeEach((to, from, next) => {
         next();
     }
 });
+// vue router end
 
 export default router;

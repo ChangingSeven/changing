@@ -8,15 +8,13 @@ import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
 import axios from 'axios'
 import qs from 'qs'
-import store from './framework/store/store'
 
 Vue.use(ElementUI);
 Vue.use(axios);
 Vue.use(qs);
-Vue.use(store);
 
 // 自定义别名
-Vue.prototype.$axios = axios;
+Vue.prototype.$frameAxios = axios;
 
 Vue.config.productionTip = false;
 
