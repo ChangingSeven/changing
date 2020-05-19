@@ -1,6 +1,9 @@
 <template>
-    <div class="hello">
-        <h1>{{ msg }}</h1>
+    <div class="hello background-404">
+        <img :src="imgSrc" width="100%" height="100%" alt="" />
+        <a :href="indexPageUrl">
+            <el-button class="back-to-index-btn" type="primary" round>返回首页</el-button>
+        </a>
     </div>
 </template>
 
@@ -9,7 +12,9 @@
         name: 'NotFound',
         data() {
             return {
-                msg: 'Request is not found！'
+                msg: 'Request is not found！',
+                imgSrc: require('../../assets/images/404-background.png'),
+                indexPageUrl: '/index'
             }
         }
     }
@@ -17,21 +22,18 @@
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-    h1, h2 {
-        font-weight: normal;
+    .back-to-index-btn {
+        position: absolute;
+        z-index: 1;
+        left: 48%;
+        bottom: 10%;
     }
 
-    ul {
-        list-style-type: none;
-        padding: 0;
+    .background-404 {
+        width: 98%;
+        height: 85%;
+        z-index:-1;
+        position: absolute;
     }
 
-    li {
-        display: inline-block;
-        margin: 0 10px;
-    }
-
-    a {
-        color: #42b983;
-    }
 </style>

@@ -3,7 +3,7 @@ import Router from 'vue-router'
 import Vuex from 'vuex'
 
 import IndexPage from '@/components/IndexPage'
-import LoginPage from '@/components/login/LoginPage'
+import LoginPage from '@/views/login/LoginPage'
 import NotFound from '@/components/framework/NotFound'
 
 Vue.use(Router);
