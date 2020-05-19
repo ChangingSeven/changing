@@ -37,10 +37,4 @@ public class Base64Util {
         return decoder.decode(src.getBytes(Charset.defaultCharset()));
     }
 
-    public static void main(String[] args) {
-        String str = "刘杰hello";
-        System.out.println(encoding(str));
-        System.out.println(decoding("5YiY5p2waGVsbG8="));
-    }
-
 }

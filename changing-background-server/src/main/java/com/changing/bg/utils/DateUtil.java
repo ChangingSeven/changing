@@ -2,7 +2,9 @@ package com.changing.bg.utils;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.Objects;
 
 /**
  * @author chenjun
@@ -23,6 +25,26 @@ public class DateUtil {
     public static Date stringToDate(String date, String format) throws ParseException {
         SimpleDateFormat sdf = new SimpleDateFormat(format);
         return sdf.parse(date);
+    }
+
+    /**
+     * 对日期进行计算
+     *
+     * @param date 计算前的日期
+     * @param unit 计算单位，例如：Calendar.DAY_OF_YEAR {@link Calendar}
+     * @param val  偏移量，正负数都可以
+     * @return 计算后的日期
+     */
+    public static Date calculateDate(Date date, int unit, int val) {
+        if (Objects.isNull(date)) {
+            return null;
+        }
+
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+        calendar.add(unit, val);
+
+        return calendar.getTime();
     }
 
     /**
