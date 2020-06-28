@@ -250,7 +250,7 @@ public class RSAUtil {
         KeyPairGenerator keyPairGen = KeyPairGenerator.getInstance(KEY_ALGORITHM);
         keyPairGen.initialize(1024);
         KeyPair keyPair = keyPairGen.generateKeyPair();
-        Map<String, String> keyMap = new HashMap(2);
+        Map<String, String> keyMap = new HashMap<>(2);
         keyMap.put(PUBLIC_KEY, Base64Util.encode(keyPair.getPublic().getEncoded()));// 公钥
         keyMap.put(PRIVATE_KEY, Base64Util.encode(keyPair.getPrivate().getEncoded()));// 私钥
         return keyMap;
@@ -258,35 +258,14 @@ public class RSAUtil {
 
     public static void main(String[] args) throws Exception {
         Map<String, String> initKey = initKey();
-//        String publicKey = initKey.get(PUBLIC_KEY);
-//        String privateKey = initKey.get(PRIVATE_KEY);
+        String publicKey = initKey.get(PUBLIC_KEY);
+        String privateKey = initKey.get(PRIVATE_KEY);
 
-        String generateURL = "sign";
-        if ("fnc".equals(generateURL)) {
-            System.out.println("出账页面跳转URL：" + generateFncURL());
-            return;
-        } else if ("sign".equals(generateURL)) {
-            System.out.println("签章页面跳转URL：" + generateSignURL());
-            return;
-        }
-
-        String publicKey = "MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDEIsLBOgiJdzxgyOaB5/PYgj8gx5zFkqFWUNV7TJCuKDP8vqkZ0KZJgWb80uZKmDziOX5VJNc9ARmNFE/GE4tQGCDuhn4kS4FN0P32qMJa2dPThHhwZHa6nHdstTMtx7Z0QaAyawgcV2JoNNM8gufUkzr8+DdS0CbY0wFCRyFHywIDAQAB";
-        String privateKey = "MIICdQIBADANBgkqhkiG9w0BAQEFAASCAl8wggJbAgEAAoGBAMQiwsE6CIl3PGDI5oHn89iCPyDHnMWSoVZQ1XtMkK4oM/y+qRnQpkmBZvzS5kqYPOI5flUk1z0BGY0UT8YTi1AYIO6GfiRLgU3Q/faowlrZ09OEeHBkdrqcd2y1My3HtnRBoDJrCBxXYmg00zyC59STOvz4N1LQJtjTAUJHIUfLAgMBAAECgYAtRXS8kv+bczktgdGq1HY1WELn9wsZk3HH8ZqE/jQ67q6pPPzdJ4rqVoMGAkwDlcYf1XNyhbFktFdIeBK9vo8eAuEDR4KMntZ5mDTGqEGH4l7ox/viti+DkxfxjGDHkyJaiNqNUZgj6LTtn0VJXfAroxf0AD+uK94G8Kp3X8aEyQJBAPJW3NPAya3Ztm538RiFXnC00z20Z28b6hPcMJIOzkf5K9GV3x4ablzzrRkiBCE06y7bb3HMVfNpjORl67Z+kiUCQQDPMSWTBzSVG1KywEHlDhbDEoamXyBCvdZcpcjD3/PeI6QkVzA/7GszgD2z2hip1YtLKhLGv8RLiJENZoUD/LcvAkAK4AUG56blS1jZej5yiEGlsyerpDXkEY+elooDc/Cj4DWsMRqTIkKDn1fMQe+HgfVv498Lb00IIFt3QG+kf+eVAkA9jn16XEasEi0UvHgXZIMwu71TiqmcCqi4Z+zo/Q2ILxCiV2EXbNdAutYaLC7trmsvDrX7ZJgeVNm7oHzefWOzAkAtVjVJPHPt6VZHbNkTkMcAbBGLpT23m6/D+I/B0qWDz1U9WF5pUgygs7lKTbyIyjakp+CCsXjbfPQD/25ohx3p";
         System.out.println("公钥：" + publicKey);
         System.out.println("私钥：" + privateKey);
 
-        TreeMap<String, String> params = new TreeMap<>();
-        params.put("busiDate", "20200516150725");
-        params.put("extInfo", "我要传递扩展信息");
-        params.put("lndJrnlId", "20200515094901");
-        params.put("ordrId", "PO2020051514520375044880");
-        params.put("pdNo", "CPBH10001709120413");
-        params.put("syscode", "00001");
-        params.put("randomNum", "1010");
         StringBuilder signStr = new StringBuilder();
-        for (String key : params.keySet()) {
-            signStr.append(params.get(key));
-        }
+        signStr.append("123abc");
 
         byte[] encodedData = RSAUtil.encryptByPublicKey(signStr.toString(), publicKey);
         String encryptBASE64 = encryptBASE64(encodedData);
@@ -304,80 +283,6 @@ public class RSAUtil {
         // 验证签名
         boolean status = RSAUtil.verify(encodedData, publicKey, sign);
         System.err.println("状态:" + status);
-    }
-
-    private static String generateFncURL() throws Exception {
-        String publicKey = "MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDEIsLBOgiJdzxgyOaB5/PYgj8gx5zFkqFWUNV7TJCuKDP8vqkZ0KZJgWb80uZKmDziOX5VJNc9ARmNFE/GE4tQGCDuhn4kS4FN0P32qMJa2dPThHhwZHa6nHdstTMtx7Z0QaAyawgcV2JoNNM8gufUkzr8+DdS0CbY0wFCRyFHywIDAQAB";
-
-        Date date = DateUtil.calculateDate(new Date(), Calendar.DAY_OF_YEAR, 1);
-        String busiDate = DateUtil.dateToString(date, "yyyyMMddHHmmss");
-        String extInfo = "我要传递扩展信息";
-        String lndJrnlId = "1262631084282085376";
-        String ordrId = "PO2020051914264554876261";
-        String pdNo = "CPBH10001709120413";
-        String sysCode = "00001";
-        String randomNum = "1010";
-
-        TreeMap<String, String> params = new TreeMap<>();
-        params.put("busiDate", busiDate);
-        params.put("extInfo", extInfo);
-        params.put("lndJrnlId", lndJrnlId);
-        params.put("ordrId", ordrId);
-        params.put("pdNo", pdNo);
-        params.put("syscode", "00001");
-        params.put("randomNum", "1010");
-        StringBuilder signStr = new StringBuilder();
-        for (String key : params.keySet()) {
-            signStr.append(params.get(key));
-        }
-
-        byte[] encodedData = RSAUtil.encryptByPublicKey(signStr.toString(), publicKey);
-        String encryptBASE64 = encryptBASE64(encodedData);
-        String encodeEncryptBASE64 = URLEncoder.encode(encryptBASE64, "UTF-8");
-        System.err.println("加密前: " + signStr);
-        System.out.println("加密后:" + encryptBASE64);
-
-        return "https://e.etest.tf.cn:4443/tfscf/hwOutOfAccount/add?" +
-                "busiDate=" + busiDate +
-                "&extInfo=" + extInfo +
-                "&lndJrnlId=" + lndJrnlId +
-                "&ordrId=" + ordrId +
-                "&pdNo=" + pdNo +
-                "&syscode=" + sysCode +
-                "&randomNum=" + randomNum +
-                "&sign=" + encodeEncryptBASE64;
-    }
-
-    private static String generateSignURL() throws Exception {
-        String publicKey = "MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDEIsLBOgiJdzxgyOaB5/PYgj8gx5zFkqFWUNV7TJCuKDP8vqkZ0KZJgWb80uZKmDziOX5VJNc9ARmNFE/GE4tQGCDuhn4kS4FN0P32qMJa2dPThHhwZHa6nHdstTMtx7Z0QaAyawgcV2JoNNM8gufUkzr8+DdS0CbY0wFCRyFHywIDAQAB";
-
-        String lndJrnlId = "1270925821934043136";
-        Date date = DateUtil.calculateDate(new Date(), Calendar.DAY_OF_YEAR, 1);
-        String busiDate = DateUtil.dateToString(date, "yyyyMMddHHmmss");
-        String sysCode = "00001";
-        String randomNum = "1010";
-
-        TreeMap<String, String> params = new TreeMap<>();
-        params.put("busiDate", busiDate);
-        params.put("lndJrnlId", lndJrnlId);
-        params.put("syscode", sysCode);
-        params.put("randomNum", randomNum);
-        StringBuilder signStr = new StringBuilder();
-        for (String key : params.keySet()) {
-            signStr.append(params.get(key));
-        }
-
-        byte[] encodedData = RSAUtil.encryptByPublicKey(signStr.toString(), publicKey);
-        String encryptBASE64 = encryptBASE64(encodedData);
-        String encodeEncryptBASE64 = URLEncoder.encode(encryptBASE64, "UTF-8");
-        System.err.println("加密前: " + signStr);
-        System.out.println("加密后:" + encodeEncryptBASE64);
-
-        return "https://e.etest.tf.cn:4443/tfscf/hwSignature/add?" + "busiDate=" + busiDate +
-                "&lndJrnlId=" + lndJrnlId +
-                "&syscode=" + sysCode +
-                "&randomNum=" + randomNum +
-                "&sign=" + encodeEncryptBASE64;
     }
 
 }
