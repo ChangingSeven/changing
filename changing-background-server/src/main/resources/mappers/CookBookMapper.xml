@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.changing.bg.mapper.cookbook.CookBookMapper">
+
+    <sql id="tableName">
+        changing_bg_cookbook a
+    </sql>
+
+    <sql id="all_columns">
+        a.id, a.dish_name, a.dish_tag, a.dish_weight, a.pungency_degree, a.dish_select_status, a.dish_selected_serial,
+        a.plan_date, a.record_status, a.create_time, a.modify_time
+    </sql>
+
+    <select id="findCookBook" resultType="com.changing.bg.model.entity.cookbook.CookBookDO">
+        SELECT
+        <include refid="all_columns"></include>
+        FROM
+        <include refid="tableName"></include>
+        <where>
+            a.record_status = 0
+            <if test="dishSelectStatus != null">
+                AND a.dish_select_status = #{dishSelectStatus}
+            </if>
+            <if test="dishSelectedSerial != null">
+                AND a.dish_selected_serial = #{dishSelectedSerial}
+            </if>
+            <if test="dishTag != null">
+                AND a.dish_tag = #{dishTag}
+            </if>
+            <if test="dishName != null">
+                AND a.dish_name like concat('%', #{dishName},'%')
+            </if>
+        </where>
+        ORDER BY a.create_time DESC
+        LIMIT 1
+    </select>
+
+    <select id="listCookBook" resultType="com.changing.bg.model.entity.cookbook.CookBookDO">
+        SELECT
+        <include refid="all_columns"></include>
+        FROM
+        <include refid="tableName"></include>
+        <where>
+            a.record_status = 0
+            <if test="dishSelectStatus != null">
+                AND a.dish_select_status = #{dishSelectStatus}
+            </if>
+            <if test="dishSelectedSerial != null">
+                AND a.dish_selected_serial = #{dishSelectedSerial}
+            </if>
+            <if test="dishTag != null">
+                AND a.dish_tag = #{dishTag}
+            </if>
+            <if test="dishName != null">
+                AND a.dish_name like concat('%', #{dishName},'%')
+            </if>
+        </where>
+        ORDER BY a.create_time DESC
+    </select>
+
+    <select id="pageCookBook" resultType="com.changing.bg.model.entity.cookbook.CookBookDO">
+        SELECT
+        <include refid="all_columns"></include>
+        FROM
+        <include refid="tableName"></include>
+        <where>
+            a.record_status = 0
+            <if test="dishSelectStatus != null">
+                AND a.dish_select_status = #{dishSelectStatus}
+            </if>
+            <if test="dishSelectedSerial != null">
+                AND a.dish_selected_serial = #{dishSelectedSerial}
+            </if>
+            <if test="dishTag != null">
+                AND a.dish_tag = #{dishTag}
+            </if>
+            <if test="dishName != null">
+                AND a.dish_name like concat('%', #{dishName},'%')
+            </if>
+        </where>
+        ORDER BY a.create_time DESC
+        LIMIT #{startIndex},#{pageSize}
+    </select>
+
+    <select id="countCookBook" resultType="java.lang.Integer">
+        SELECT COUNT(*)
+        FROM
+        <include refid="tableName"></include>
+        <where>
+            a.record_status = 0
+            <if test="dishSelectStatus != null">
+                AND a.dish_select_status = #{dishSelectStatus}
+            </if>
+            <if test="dishSelectedSerial != null">
+                AND a.dish_selected_serial = #{dishSelectedSerial}
+            </if>
+            <if test="dishTag != null">
+                AND a.dish_tag = #{dishTag}
+            </if>
+            <if test="dishName != null">
+                AND a.dish_name like concat('%', #{dishName},'%')
+            </if>
+        </where>
+    </select>
+
+</mapper>

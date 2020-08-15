@@ -27,6 +27,7 @@ public class ResourcesServerConfiguration extends ResourceServerConfigurerAdapte
                 //请求权限配置
                 .authorizeRequests()
                 .antMatchers("/login").permitAll()
+                .antMatchers("/cookbook/*").permitAll()
                 .antMatchers("/oauth/*").permitAll()
                 .antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                 .anyRequest().authenticated();

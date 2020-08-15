@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.changing.bg.mapper.dict.DictMapper">
+
+    <sql id="all_columns">
+        a.id, a.dict_group, a.dict_group_name, a.dict_type, a.dict_type_name, a.record_status, a.create_time, a.modify_time
+    </sql>
+
+    <select id="findDict" resultType="com.changing.bg.model.entity.dict.DictDO">
+        SELECT
+        <include refid="all_columns"></include>
+        FROM changing_bg_dict a
+        <where>
+            a.record_status = 0
+            <if test="dictGroup != null">
+                AND a.dict_group = #{dictGroup}
+            </if>
+            <if test="dictGroupName != null">
+                AND a.dict_group_name = #{dictGroupName}
+            </if>
+            <if test="dictType != null">
+                AND a.dict_type = #{dictType}
+            </if>
+            <if test="dictTypeName != null">
+                AND a.dict_type_name = #{dictTypeName}
+            </if>
+        </where>
+        ORDER BY a.create_time DESC
+        LIMIT 1
+    </select>
+
+    <select id="listDict" resultType="com.changing.bg.model.entity.dict.DictDO">
+        SELECT
+        <include refid="all_columns"></include>
+        FROM changing_bg_dict a
+        <where>
+            a.record_status = 0
+            <if test="dictGroup != null">
+                AND a.dict_group = #{dictGroup}
+            </if>
+            <if test="dictGroupName != null">
+                AND a.dict_group_name = #{dictGroupName}
+            </if>
+            <if test="dictType != null">
+                AND a.dict_type = #{dictType}
+            </if>
+            <if test="dictTypeName != null">
+                AND a.dict_type_name = #{dictTypeName}
+            </if>
+        </where>
+        ORDER BY a.create_time DESC
+    </select>
+
+</mapper>

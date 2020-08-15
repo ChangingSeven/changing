@@ -3,6 +3,7 @@ import Router from 'vue-router'
 import Vuex from 'vuex'
 
 import IndexPage from '@/components/IndexPage'
+import CookBookRandomPage from '@/components/CookBookRandomPage'
 import LoginPage from '@/views/login/LoginPage'
 import NotFound from '@/components/framework/NotFound'
 
@@ -64,6 +65,13 @@ const router = new Router({
             component: LoginPage,
             meta: {
                 title: '登录'
+            }
+        }, {
+            path: '/cookbook/random',
+            name: 'CookBookRandomPage',
+            component: CookBookRandomPage,
+            meta: {
+                title: '生成菜品'
             }
         },
         {
