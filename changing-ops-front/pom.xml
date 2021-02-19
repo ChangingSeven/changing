@@ -10,7 +10,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.changing.technology</groupId>
-    <artifactId>changing-background-front</artifactId>
+    <artifactId>changing-ops-front</artifactId>
     <packaging>pom</packaging>
     <version>1.0.0</version>
 
