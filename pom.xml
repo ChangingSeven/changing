@@ -29,8 +29,8 @@
         <module>changing-customer-server</module>
         <module>changing-customer-front</module>
 
-        <module>changing-background-server</module>
-        <module>changing-background-front</module>
+        <module>changing-ops-server</module>
+        <module>changing-ops-front</module>
     </modules>
 
 
