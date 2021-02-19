@@ -1,7 +1,7 @@
 package com.changing.customer.utils;
 
 import com.alibaba.fastjson.JSON;
-import com.changing.customer.framework.exceptions.HttpFailException;
+import com.changing.customer.framework.exception.HttpFailException;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.codec.Charsets;
 import org.apache.commons.lang3.StringUtils;

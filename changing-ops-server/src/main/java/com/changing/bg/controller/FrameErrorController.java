@@ -23,7 +23,7 @@ public class FrameErrorController implements ErrorController {
      * @return
      */
     @RequestMapping(value = ERROR_PATH_URI)
-    public ResponseDTO error() {
+    public ResponseDTO<Void> error() {
 
         return ResponseDTO.fail("unknown request uri");
     }

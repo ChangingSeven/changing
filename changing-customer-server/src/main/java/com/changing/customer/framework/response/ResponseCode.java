@@ -2,8 +2,18 @@ package com.changing.customer.framework.response;
 
 import lombok.Getter;
 
+/**
+ * 异常码
+ *
+ * @author chenjun
+ * @version V1.0
+ * @since 2020-03-18 20:18
+ */
 @Getter
 public enum ResponseCode {
+    /**
+     *
+     */
     CONTINUE("100", "Continue"),
     SWITCHING_PROTOCOLS("101", "Switching Protocols"),
     PROCESSING("102", "Processing"),
