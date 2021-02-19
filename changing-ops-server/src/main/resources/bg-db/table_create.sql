@@ -32,6 +32,41 @@ CREATE TABLE `changing_bg_user_permission` (
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 -- ----------------------------
+--  Table structure for `changing_bg_cookbook` 菜品表
+-- ----------------------------
+DROP TABLE IF EXISTS `changing_bg_cookbook`;
+CREATE TABLE `changing_bg_cookbook` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '主键',
+  `dish_name` varchar(64) NOT NULL COMMENT '菜名',
+  `dish_tag` varchar(16) DEFAULT NULL COMMENT '标签',
+  `dish_weight` double(10,2) DEFAULT NULL COMMENT '权重',
+  `pungency_degree` double(10,2) DEFAULT NULL COMMENT '辣度',
+  `dish_select_status` tinyint(2) NOT NULL COMMENT '是否已被选择(0:否，1:是)',
+  `dish_selected_serial` int(10) DEFAULT NULL COMMENT '被选择的批次',
+  `plan_date` datetime DEFAULT NULL COMMENT '执行日期',
+  `record_status` tinyint(2) NOT NULL COMMENT '数据状态',
+  `create_time` datetime NOT NULL DEFAULT '0000-00-00 00:00:00' COMMENT '创建时间',
+  `modify_time` datetime DEFAULT NULL COMMENT '最后修改时间',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+--  Table structure for `changing_bg_dict` 字典表
+-- ----------------------------
+DROP TABLE IF EXISTS `changing_bg_dict`;
+CREATE TABLE `changing_bg_dict` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '主键',
+  `dict_group` varchar(32) NOT NULL COMMENT '字典分组',
+  `dict_group_name` varchar(32) NOT NULL COMMENT '字典分组名',
+  `dict_type` varchar(32) NOT NULL COMMENT '字典值',
+  `dict_type_name` varchar(128) NOT NULL COMMENT '字典中文名',
+  `record_status` tinyint(2) NOT NULL COMMENT '数据状态',
+  `create_time` datetime NOT NULL DEFAULT '0000-00-00 00:00:00' COMMENT '创建时间',
+  `modify_time` datetime DEFAULT NULL COMMENT '最后修改时间',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
 -- Table structure for `authority` 角色表
 -- ----------------------------
 DROP TABLE IF EXISTS `authority`;
